@@ -72,10 +72,10 @@ dsh plugin --profile web add /path/to/dsh-recycle-bin
 安装后重启 DSH Web 生效。  
 Restart DSH Web after installation.
 
-### 从 Git 仓库安装（发布后）/ Install from Git (after publishing)
+### 从 Git 仓库安装 / Install from Git
 
 ```sh
-dsh plugin --profile web add github:<your-username>/dsh-recycle-bin
+dsh plugin --profile web add github:qwertyuiop314/dsh-recycle-bin
 ```
 
 ### 卸载 / Uninstall
