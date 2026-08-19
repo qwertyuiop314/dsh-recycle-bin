@@ -1,0 +1,15 @@
+# dsh-recycle-bin bundle patch: mounts the recycle bin plugin into the DSH
+# profile. The host half adds /dsh-recycle-bin/* HTTP routes; the browser half
+# registers one sidebar footer action (above Settings) plus the recycle-bin
+# management dialog.
+#
+# This patch only inserts this plugin. It does not modify any DSH core file or
+# existing plugin source.
+- insert:
+    - id: recycle-bin
+      name: dsh-recycle-bin
+      inject:
+        - webServer
+        - storageDomain
+        - sessionPersistence
+        - workspaceRegistry
