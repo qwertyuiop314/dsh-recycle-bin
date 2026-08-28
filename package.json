@@ -1,6 +1,6 @@
 {
   "name": "dsh-recycle-bin",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "DSH recycle bin plugin: move archived conversations to a recoverable trash, batch restore or permanently purge, with cross-platform safe file handling.",
   "type": "module",
   "main": "lib/index.js",
