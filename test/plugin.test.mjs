@@ -87,15 +87,6 @@ test('purgeSessions removes trash index, local files, DSH metadata and records a
     let setStateCalled = false
 
     const ctx = {
-      sessionPersistence: {
-        async listSnapshots() {
-          return [{ header: { id: sessionId, cwd: '/tmp/project' } }]
-        },
-        locate(header) {
-          assert.equal(header.id, sessionId)
-          return { kind: 'jsonl', path: path.join(sessionRoot, 'session.jsonl.zstd') }
-        },
-      },
       storageDomain: {
         get(name) {
           if (name === 'workspace') {
