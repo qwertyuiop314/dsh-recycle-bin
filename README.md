@@ -57,6 +57,23 @@ This plugin adds a recycle-bin workflow to DSH through official UI slots and its
 
 ---
 
+## 版本兼容 / Compatibility
+
+同时适配 DSH **0.1.5** 与 **0.1.7**（rc 线）。
+
+中文：
+
+- **归档集与工作区成员清理**：0.1.7 把归档/置顶账本收拢到 Workspace registry，插件改用公开 API `workspaceRegistry.unarchiveSession()` / `unpinSession()` 与 `Workspace.detachSession()`（幂等、随 registry 写链串行）；0.1.5 及更早的 `enqueueOperation` + `setState` / 工作区表直写路径保留为回退。
+- **「彻底删除」的磁盘定位**：0.1.5+ 的会话目录是 `sessions/--<项目 slug>--/<会话 id>/`，更早是 `sessions/<slug>/<id>/`，无 `cwd` 的会话在 `_no-cwd/`；插件会同时按原样 id 与 DSH 的 `encodeSegment` 规则比对，两种布局都能定位（日志文件名从 `session.jsonl[.zstd]` 变为 `session.vN.jsonl[.zstd]` 不影响删除整目录）。
+- **客户端**：0.1.7 移除了 `ctx.workspaces.refresh()`（工作区快照改由 follow 流驱动），插件在该方法缺失时退化为 no-op；`ctx.sessions.refresh()` 仍存在。
+- **归档运行中的会话**：0.1.7 起 Host 会以 `workspace/session-active` 拒绝归档（不会中断任务），批量归档会跳过这些会话并在控制台记录。
+
+English:
+
+- Archive/pin bookkeeping is driven through the public registry API on 0.1.7 (`unarchiveSession`, `unpinSession`, `Workspace.detachSession`), with the pre-0.1.7 domain-state path kept as a fallback.
+- Permanent purge locates session directories for both `sessions/--<slug>--/<id>/` (0.1.5+) and `sessions/<slug>/<id>/` (older), matching ids literally and via DSH's `encodeSegment` rule.
+- The browser half tolerates the removal of `ctx.workspaces.refresh()` in 0.1.7 by degrading the manual refresh to a no-op.
+
 ## 安装 / Install
 
 > ⚠️ 当前插件仍在测试阶段。请先在隔离沙盒、模拟环境或 DSH 测试实例中完整验证，再部署到生产环境或公开发布。
