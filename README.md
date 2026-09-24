@@ -63,6 +63,7 @@ This plugin adds a recycle-bin workflow to DSH through official UI slots and its
 
 中文：
 
+- **图标组件（0.1.7 起的硬断点）**：`@deepseek-ai/dsh-client-ui-primitives` 的图标导出从**像素尺寸后缀**（`IconTrashOutline16` / `…14` / `…20`）改成了**描边粗细后缀**（`IconTrashOutlineRegular` / `…Medium`）。客户端半包现在把两代名字都探一遍（`primitives[modern] ?? primitives[legacy]`），因此同一份 bundle 在 0.1.5 与 0.1.7+ 上都能拿到组件。旧写法在新版会解构成 `undefined`，React 报 **error #130**，slot 条目崩溃 —— 表现是**界面完全没反应**（而不是弹错误），这一点很容易误判成“插件没装好”。
 - **归档集与工作区成员清理**：0.1.7 把归档/置顶账本收拢到 Workspace registry，插件改用公开 API `workspaceRegistry.unarchiveSession()` / `unpinSession()` 与 `Workspace.detachSession()`（幂等、随 registry 写链串行）；0.1.5 及更早的 `enqueueOperation` + `setState` / 工作区表直写路径保留为回退。
 - **「彻底删除」的磁盘定位**：0.1.5+ 的会话目录是 `sessions/--<项目 slug>--/<会话 id>/`，更早是 `sessions/<slug>/<id>/`，无 `cwd` 的会话在 `_no-cwd/`；插件会同时按原样 id 与 DSH 的 `encodeSegment` 规则比对，两种布局都能定位（日志文件名从 `session.jsonl[.zstd]` 变为 `session.vN.jsonl[.zstd]` 不影响删除整目录）。
 - **客户端**：0.1.7 移除了 `ctx.workspaces.refresh()`（工作区快照改由 follow 流驱动），插件在该方法缺失时退化为 no-op；`ctx.sessions.refresh()` 仍存在。
